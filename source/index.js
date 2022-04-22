@@ -1,4 +1,3 @@
-<script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
 
 var scene = new Phaser.Scene("game");
 var config = {
@@ -39,7 +38,7 @@ scene.preload = function() {
 scene.create = function() {
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
-
+    
 }
 
 scene.update = function() {
@@ -47,3 +46,4 @@ scene.update = function() {
 }
 game.scene.add("game", scene);
 game.scene.start('game');
+console.log("scene loaded")
