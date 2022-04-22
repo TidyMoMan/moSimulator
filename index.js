@@ -1,3 +1,5 @@
+<script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
+
 var scene = new Phaser.Scene("game");
 var config = {
     type: Phaser.AUTO,

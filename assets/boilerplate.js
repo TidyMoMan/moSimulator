@@ -43,5 +43,6 @@
             scene.update = function() {
                 
             }
+            
             game.scene.add("game", scene);
             game.scene.start('game');
