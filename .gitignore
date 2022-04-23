@@ -7,3 +7,6 @@ index.html.erb
 /stylesheets
 /layouts
 /javascripts
+config.rb
+Gemfile.lock
+Gemfile
