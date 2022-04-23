@@ -31,12 +31,15 @@
             //var thisIsAGoodPlaceToPutPublicVariables;
 
             scene.preload = function() {
-                
+                //this.load.spritesheet('moses', 'assets/mosprite.png', 38, 48);
             }
 
             scene.create = function() {
                 const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
                 const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+
+               // moses = this.game.add.sprite(15, 30, 'moses');
+                //moses.frame = 3;
 
             }
 
