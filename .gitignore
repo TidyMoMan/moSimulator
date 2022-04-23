@@ -7,6 +7,7 @@ source/index.html.erb
 source/stylesheets
 source/layouts
 source/javascripts
+source/images
 config.rb
 Gemfile.lock
 Gemfile
