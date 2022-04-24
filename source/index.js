@@ -4,14 +4,14 @@ var config = {
     type: Phaser.AUTO,
     width: 1320,
     height: 700,
-    backgroundColor: '#4488aa',
+    backgroundColor: '#3e3e42',
     type: Phaser.AUTO,
     parent: 'game',
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: false
+            debug: true
         }
     },
     scale: {
@@ -28,19 +28,40 @@ var config = {
 
 
 
+
 var game = new Phaser.Game(config);
 
 //var thisIsAGoodPlaceToPutPublicVariables;
+var moses;
 
 scene.preload = function() {
-    this.load.spritesheet('moses', 'assets/mosprite.png', {frameWidth: 29, framHeight: 19});
+    this.load.spritesheet('moses', 'assets/mosprite.png', {frameWidth: 32, frameHeight: 25});
 }
 
 scene.create = function() {
+    cursors = this.input.keyboard.createCursorKeys();
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+
+    moses = this.physics.add.image(0, 0, 'moses', '__BASE').setOrigin(0, 0);
+
+
+    floor = this.add.rectangle(screenCenterX, 595, 8000, 20, 0x8b5a2b);
+    this.physics.add.existing(floor);
+    //floor.body.enable = false;
+    floor.body.setAllowGravity = false;
+    floor.body.setCollideWorldBounds(true)
+
     
-    this.add.image(0, 0, 'moses', '__BASE').setOrigin(0, 0);
+
+
+    
+    moAni = this.physics.add.sprite(600, 370);
+    moAni.body.setCollideWorldBounds(true);
+    moAni.setScale(4)
+    this.physics.add.collider(moAni, floor);
+    moAni.body.setSize(10, 20, true);
+    moAni.body.offset.y = 4.3;
     
     this.anims.create({
         key: 'idle',
@@ -49,18 +70,48 @@ scene.create = function() {
         repeat: -1
 
     });
+    this.anims.create({
+        key: 'walk',
+        frames: this.anims.generateFrameNumbers('moses', { frames: [ 4, 3 ] }),
+        frameRate: 1,
+        repeat: -1
 
-    const moAni = this.physics.add.sprite(600, 370);
-    moAni.setScale(5)
-    this.input.on('pointerdown', function () {
-        moAni.play('idle');
     });
+
+    var moState;
+    if(moState == "idle"){
+        moAni.play('idle');
+    }
+    
+    // this.input.on('pointerdown', function () {
+    //     moAni.play('idle');
+    // });
+    if(moAni.setVelocityX == 0){
+        moAni.play('idle');
+    }
+    else{
+        moAni.play('walk');
+    }
 
 }
 
 scene.update = function() {
-
+    if (moAni.active) {
+        if (cursors.left.isDown) {
+            
+            moAni.setVelocityX(-300);
+        }
+        else if (cursors.right.isDown) {
+           
+            moAni.setVelocityX(300);
+        }
+        else {
+            moAni.setVelocityX(0);
+        }
+    }
 }
 game.scene.add("game", scene);
 game.scene.start('game');
-console.log("scene loaded")
+console.log("scene loaded");
+
+
