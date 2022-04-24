@@ -35,7 +35,7 @@ var game = new Phaser.Game(config);
 var moses;
 
 scene.preload = function () {
-    this.load.spritesheet('moses', 'assets/mosprite.png', { frameWidth: 32, frameHeight: 25 });
+    this.load.spritesheet('moses', 'assets/mosprite2.png', { frameWidth: 32, frameHeight: 32 });
 }
 
 scene.create = function () {
@@ -62,7 +62,7 @@ scene.create = function () {
     this.physics.add.collider(moAni, floor);
     moAni.body.setSize(10, 20, true);
     moAni.body.offset.y = 4.3;
-    moAni.setBounce(0.2);
+    moAni.setBounce(0.125);
 
     this.anims.create({
         key: 'idle',
@@ -72,44 +72,55 @@ scene.create = function () {
 
     });
     this.anims.create({
-        key: 'walk',
-        frames: this.anims.generateFrameNumbers('moses', { frames: [2, 3] }),
+        key: 'walkLeft',
+        frames: this.anims.generateFrameNumbers('moses', { frames: [2] }),
         frameRate: 1,
         repeat: -1
-
+    });
+    this.anims.create({
+        key: 'walkRight',
+        frames: this.anims.generateFrameNumbers('moses', { frames: [3] }),
+        frameRate: 1,
+        repeat: -1
     });
 
-    var moState;
-    if (moState == "idle") {
-        moAni.play('idle');
-    }
+    
 
     this.input.on('pointerdown', function () {
         moAni.play('idle');
     });
+    idletimer = this.time.addEvent(
+        new Phaser.Time.TimerEvent({
+            delay: 3000, callback: () => {
+                moAni.play('idle');
+                console.log('playing idle animation');
+            }, loop: true
+        }));
 
 }
-let upKey = event.Keycode; 
+
 scene.update = function () {
 
-    if (cursors.upKey.isDown)
+    if (cursors.left.isDown)
 {
-    moAni.play("walk");
-    moAni.setVelocityY(-300);
-    console.log("W")
+    moAni.play("walkLeft");
+    moAni.setVelocityX(-300);
+    console.log("A")
 }
 else if (cursors.right.isDown)
 {
-    
+    moAni.play("walkRight");
+    moAni.setVelocityX(300);
+    console.log("D")
 }
 else
 {
-  
+    moAni.setVelocityX(0);
 }
 
 if (cursors.up.isDown && moAni.body.touching.down)
 {
-    player.setVelocityY(-330);
+    moAni.setVelocityY(-200);
 }
    
 }
