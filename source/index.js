@@ -34,11 +34,11 @@ var game = new Phaser.Game(config);
 //var thisIsAGoodPlaceToPutPublicVariables;
 var moses;
 
-scene.preload = function() {
-    this.load.spritesheet('moses', 'assets/mosprite.png', {frameWidth: 32, frameHeight: 25});
+scene.preload = function () {
+    this.load.spritesheet('moses', 'assets/mosprite.png', { frameWidth: 32, frameHeight: 25 });
 }
 
-scene.create = function() {
+scene.create = function () {
     cursors = this.input.keyboard.createCursorKeys();
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
@@ -52,63 +52,66 @@ scene.create = function() {
     floor.body.setAllowGravity = false;
     floor.body.setCollideWorldBounds(true)
 
-    
 
 
-    
+
+
     moAni = this.physics.add.sprite(600, 370);
     moAni.body.setCollideWorldBounds(true);
     moAni.setScale(4)
     this.physics.add.collider(moAni, floor);
     moAni.body.setSize(10, 20, true);
     moAni.body.offset.y = 4.3;
-    
+    moAni.setBounce(0.2);
+
     this.anims.create({
         key: 'idle',
-        frames: this.anims.generateFrameNumbers('moses', { frames: [ 0, 1 ] }),
+        frames: this.anims.generateFrameNumbers('moses', { frames: [0, 1] }),
         frameRate: 1,
         repeat: -1
 
     });
     this.anims.create({
         key: 'walk',
-        frames: this.anims.generateFrameNumbers('moses', { frames: [ 4, 3 ] }),
+        frames: this.anims.generateFrameNumbers('moses', { frames: [2, 3] }),
         frameRate: 1,
         repeat: -1
 
     });
 
     var moState;
-    if(moState == "idle"){
+    if (moState == "idle") {
         moAni.play('idle');
     }
-    
-    // this.input.on('pointerdown', function () {
-    //     moAni.play('idle');
-    // });
-    if(moAni.setVelocityX == 0){
+
+    this.input.on('pointerdown', function () {
         moAni.play('idle');
-    }
-    else{
-        moAni.play('walk');
-    }
+    });
 
 }
+let upKey = event.Keycode; 
+scene.update = function () {
 
-scene.update = function() {
-    if (moAni.active) {
-        if (cursors.left.isDown) {
-            
-            moAni.setVelocityX(-300);
-        }
-        else if (cursors.right.isDown) {
-           
-            moAni.setVelocityX(300);
-        }
-        else {
-            moAni.setVelocityX(0);
-        }
-    }
+    if (cursors.upKey.isDown)
+{
+    moAni.play("walk");
+    moAni.setVelocityY(-300);
+    console.log("W")
+}
+else if (cursors.right.isDown)
+{
+    
+}
+else
+{
+  
+}
+
+if (cursors.up.isDown && moAni.body.touching.down)
+{
+    player.setVelocityY(-330);
+}
+   
 }
 game.scene.add("game", scene);
 game.scene.start('game');
