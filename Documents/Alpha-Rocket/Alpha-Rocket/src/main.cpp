@@ -1,4 +1,4 @@
-//version 0.1
+//Alpha Rocket Avi Firmware Version 0.1.1
 
 #include <Arduino.h>
 #include <Wire.h>
